@@ -47,6 +47,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +62,20 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home'),
       ),
       body: Center(
-        child: Text('Home'),
-      ),
+          child: FutureBuilder(
+        future: futureAlbum,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var title;
+            return Text("${snapshot.data!.title}");
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+
+          // By default, show a loading spinner.
+          return CircularProgressIndicator();
+        },
+      )),
     );
   }
 }
