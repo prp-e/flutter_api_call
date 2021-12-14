@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
           child: FutureBuilder(
         future: futureAlbum,
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<Album> snapshot) {
           if (snapshot.hasData) {
             var title;
             return Text("${snapshot.data!.title}");
